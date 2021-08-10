@@ -2,13 +2,15 @@ const path = require('path')
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
 
 module.exports = {
+  devtool: 'source-map',
   entry: [path.resolve(__dirname, 'src/apexcharts.js')],
   output: {
     library: 'ApexCharts',
     libraryTarget: 'umd',
     umdNamedDefine: false,
     path: path.resolve(__dirname, 'dist/'),
-    filename: 'apexcharts.amd.js'
+    filename: 'apexcharts.amd.js',
+    sourceMapFilename: 'apexcharts.amd.js.map'
   },
   module: {
     rules: [
@@ -45,6 +47,11 @@ module.exports = {
       {
         test: /\.css$/,
         use: ['style-loader', 'css-loader']
+      },
+      {
+        test: /\.(js)$/,
+        enforce: 'pre',
+        loader: 'source-map-loader'
       },
       {
         test: /\.svg$/,
