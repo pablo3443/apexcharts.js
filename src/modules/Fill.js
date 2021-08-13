@@ -81,7 +81,9 @@ class Fill {
     const w = this.w
 
     if (
-      ((w.config.chart.type === 'bar' || w.config.chart.type === 'rangeBar') &&
+      ((w.config.chart.type === 'bar' ||
+        w.config.chart.type === 'rangeBar' ||
+        w.config.chart.type === 'gantt') &&
         w.config.plotOptions.bar.distributed) ||
       w.config.chart.type === 'heatmap' ||
       w.config.chart.type === 'treemap'

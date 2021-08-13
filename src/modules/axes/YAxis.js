@@ -554,4 +554,6 @@ export default class YAxis {
       }
     })
   }
+
+  drawGanttYAxis() {}
 }

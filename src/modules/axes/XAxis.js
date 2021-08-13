@@ -542,4 +542,147 @@ export default class XAxis {
   //   let plotBand = document.createElementNS(w.globals.SVGNS, 'rect')
   //   w.globals.dom.elGraphical.add(plotBand)
   // }
+
+  // this actually becomes the vertical axis (for bar charts)
+  drawGanttXAxis(realIndex) {
+    let w = this.w
+    let graphics = new Graphics(this.ctx)
+
+    let translateYAxisX = w.config.yaxis[0].opposite
+      ? w.globals.translateYAxisX[realIndex]
+      : 0
+
+    let elYaxis = graphics.group({
+      class: 'apexcharts-yaxis apexcharts-xaxis-inversed',
+      rel: realIndex
+    })
+
+    let elYaxisTexts = graphics.group({
+      class: 'apexcharts-yaxis-texts-g apexcharts-xaxis-inversed-texts-g',
+      transform: 'translate(' + translateYAxisX + ', 0)'
+    })
+
+    elYaxis.add(elYaxisTexts)
+
+    let colHeight
+
+    // initial x Position (keep adding column width in the loop)
+    let yPos
+    let labels = []
+
+    if (w.config.yaxis[realIndex].show) {
+      for (let i = 0; i < this.xaxisLabels.length; i++) {
+        labels.push(this.xaxisLabels[i])
+      }
+    }
+
+    colHeight = w.globals.gridHeight / labels.length
+    yPos = -(colHeight / 2.2)
+
+    let lbFormatter = w.globals.yLabelFormatters[0]
+
+    const ylabels = w.config.yaxis[0].labels
+
+    if (ylabels.show) {
+      for (let i = 0; i <= labels.length - 1; i++) {
+        let label = typeof labels[i] === 'undefined' ? '' : labels[i]
+
+        label = lbFormatter(label, {
+          seriesIndex: realIndex,
+          dataPointIndex: i,
+          w
+        })
+
+        const yColors = this.axesUtils.getYAxisForeColor(
+          ylabels.style.colors,
+          realIndex
+        )
+        const getForeColor = () => {
+          return Array.isArray(yColors) ? yColors[i] : yColors
+        }
+
+        let multiY = 0
+        if (Array.isArray(label)) {
+          multiY = (label.length / 2) * parseInt(ylabels.style.fontSize, 10)
+        }
+        let elLabel = graphics.drawText({
+          x: ylabels.offsetX - 15,
+          y: yPos + colHeight + ylabels.offsetY - multiY,
+          text: label,
+          textAnchor: this.yaxis.opposite ? 'start' : 'end',
+          foreColor: getForeColor(),
+          fontSize: ylabels.style.fontSize,
+          fontFamily: ylabels.style.fontFamily,
+          fontWeight: ylabels.style.fontWeight,
+          isPlainText: false,
+          cssClass: 'apexcharts-yaxis-label ' + ylabels.style.cssClass
+        })
+
+        // add link
+        const link = w.globals.dom.Paper.link('myText')
+        link.add(elLabel)
+        elLabel = link
+
+        elYaxisTexts.add(elLabel)
+        yPos = yPos + colHeight
+      }
+    }
+
+    if (w.config.yaxis[0].title.text !== undefined) {
+      let elXaxisTitle = graphics.group({
+        class: 'apexcharts-yaxis-title apexcharts-xaxis-title-inversed',
+        transform: 'translate(' + translateYAxisX + ', 0)'
+      })
+
+      let elXAxisTitleText = graphics.drawText({
+        x: 0,
+        y: w.globals.gridHeight / 2,
+        text: w.config.yaxis[0].title.text,
+        textAnchor: 'middle',
+        foreColor: w.config.yaxis[0].title.style.color,
+        fontSize: w.config.yaxis[0].title.style.fontSize,
+        fontWeight: w.config.yaxis[0].title.style.fontWeight,
+        fontFamily: w.config.yaxis[0].title.style.fontFamily,
+        cssClass:
+          'apexcharts-yaxis-title-text ' +
+          w.config.yaxis[0].title.style.cssClass
+      })
+
+      elXaxisTitle.add(elXAxisTitleText)
+
+      elYaxis.add(elXaxisTitle)
+    }
+
+    let offX = 0
+    if (this.isCategoryBarHorizontal && w.config.yaxis[0].opposite) {
+      offX = w.globals.gridWidth
+    }
+    const axisBorder = w.config.xaxis.axisBorder
+    if (axisBorder.show) {
+      let elVerticalLine = graphics.drawLine(
+        w.globals.padHorizontal + axisBorder.offsetX + offX,
+        1 + axisBorder.offsetY,
+        w.globals.padHorizontal + axisBorder.offsetX + offX,
+        w.globals.gridHeight + axisBorder.offsetY,
+        axisBorder.color,
+        0
+      )
+
+      elYaxis.add(elVerticalLine)
+    }
+
+    if (w.config.yaxis[0].axisTicks.show) {
+      this.axesUtils.drawYAxisTicks(
+        offX,
+        labels.length,
+        w.config.yaxis[0].axisBorder,
+        w.config.yaxis[0].axisTicks,
+        0,
+        colHeight,
+        elYaxis
+      )
+    }
+
+    return elYaxis
+  }
 }

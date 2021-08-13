@@ -21,7 +21,9 @@ export default class Theme {
         w.config.plotOptions.heatmap.distributed)
     this.isBarDistributed =
       w.config.plotOptions.bar.distributed &&
-      (w.config.chart.type === 'bar' || w.config.chart.type === 'rangeBar')
+      (w.config.chart.type === 'bar' ||
+        w.config.chart.type === 'rangeBar' ||
+        w.config.chart.type === 'gantt')
   }
 
   init() {

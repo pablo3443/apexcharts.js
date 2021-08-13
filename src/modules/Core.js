@@ -9,6 +9,7 @@ import Pie from '../charts/Pie'
 import Radar from '../charts/Radar'
 import Radial from '../charts/Radial'
 import RangeBar from '../charts/RangeBar'
+import Gantt from '../charts/Gantt'
 import Legend from './legend/Legend'
 import Line from '../charts/Line'
 import Treemap from '../charts/Treemap'
@@ -51,7 +52,8 @@ export default class Core {
       'bubble',
       'radar',
       'heatmap',
-      'treemap'
+      'treemap',
+      'gantt'
     ]
 
     let xyChartsArrTypes = [
@@ -62,7 +64,8 @@ export default class Core {
       'candlestick',
       'boxPlot',
       'scatter',
-      'bubble'
+      'bubble',
+      'gantt'
     ]
 
     gl.axisCharts = axisChartsArrTypes.indexOf(ct) > -1
@@ -70,7 +73,9 @@ export default class Core {
     gl.xyCharts = xyChartsArrTypes.indexOf(ct) > -1
 
     gl.isBarHorizontal =
-      (cnf.chart.type === 'bar' || cnf.chart.type === 'rangeBar') &&
+      (cnf.chart.type === 'bar' ||
+        cnf.chart.type === 'rangeBar' ||
+        cnf.chart.type === 'gantt') &&
       cnf.plotOptions.bar.horizontal
 
     gl.chartClass = '.apexcharts' + gl.chartID
@@ -208,6 +213,7 @@ export default class Core {
     this.ctx.pie = new Pie(this.ctx)
     let radialBar = new Radial(this.ctx)
     this.ctx.rangeBar = new RangeBar(this.ctx, xyRatios)
+    let gantt = new Gantt(this.ctx, xyRatios)
     let radar = new Radar(this.ctx)
     let elGraph = []
 
@@ -274,6 +280,9 @@ export default class Core {
           break
         case 'rangeBar':
           elGraph = this.ctx.rangeBar.draw(gl.series)
+          break
+        case 'gantt':
+          elGraph = gantt.draw(gl.series)
           break
         case 'heatmap':
           let heatmap = new HeatMap(this.ctx, xyRatios)

@@ -233,6 +233,100 @@ export default class Defaults {
     }
   }
 
+  gantt() {
+    const handleTimelineTooltip = (opts) => {
+      const rangeCtx = new RangeBar(opts.ctx, null)
+
+      const {
+        color,
+        seriesName,
+        ylabel,
+        startVal,
+        endVal
+      } = rangeCtx.getTooltipValues(opts)
+      return rangeCtx.buildCustomTooltipHTML({
+        color,
+        seriesName,
+        ylabel,
+        start: startVal,
+        end: endVal
+      })
+    }
+
+    const handleRangeColumnTooltip = (opts) => {
+      const rangeCtx = new RangeBar(opts.ctx, null)
+
+      const {
+        color,
+        seriesName,
+        ylabel,
+        start,
+        end
+      } = rangeCtx.getTooltipValues(opts)
+      return rangeCtx.buildCustomTooltipHTML({
+        color,
+        seriesName,
+        ylabel,
+        start,
+        end
+      })
+    }
+    return {
+      stroke: {
+        width: 0,
+        lineCap: 'square'
+      },
+      plotOptions: {
+        bar: {
+          borderRadius: 0,
+          dataLabels: {
+            position: 'center'
+          }
+        }
+      },
+      dataLabels: {
+        enabled: false,
+        formatter(val, { ctx, seriesIndex, dataPointIndex, w }) {
+          const start = w.globals.seriesRangeStart[seriesIndex][dataPointIndex]
+          const end = w.globals.seriesRangeEnd[seriesIndex][dataPointIndex]
+          return end - start
+        },
+        background: {
+          enabled: false
+        },
+        style: {
+          colors: ['#fff']
+        }
+      },
+      tooltip: {
+        shared: false,
+        followCursor: true,
+        custom(opts) {
+          if (
+            opts.w.config.plotOptions &&
+            opts.w.config.plotOptions.bar &&
+            opts.w.config.plotOptions.bar.horizontal
+          ) {
+            return handleTimelineTooltip(opts)
+          } else {
+            return handleRangeColumnTooltip(opts)
+          }
+        }
+      },
+      xaxis: {
+        tickPlacement: 'between',
+        tooltip: {
+          enabled: false
+        },
+        crosshairs: {
+          stroke: {
+            width: 0
+          }
+        }
+      }
+    }
+  }
+
   rangeBar() {
     const handleTimelineTooltip = (opts) => {
       const rangeCtx = new RangeBar(opts.ctx, null)

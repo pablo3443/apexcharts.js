@@ -188,7 +188,8 @@ export default class Tooltip {
       type === 'bar' ||
       type === 'candlestick' ||
       type === 'boxPlot' ||
-      type === 'rangeBar'
+      type === 'rangeBar' ||
+      type === 'gantt'
     )
 
     const chartWithmarkers =

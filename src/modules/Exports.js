@@ -305,6 +305,12 @@ class Exports {
             columns.push(w.globals.seriesRangeEnd[sI][i])
           }
 
+          if (w.config.chart.type === 'gantt') {
+            columns.pop()
+            columns.push(w.globals.seriesRangeStart[sI][i])
+            columns.push(w.globals.seriesRangeEnd[sI][i])
+          }
+
           if (columns.length) {
             rows.push(columns.join(columnDelimiter))
           }

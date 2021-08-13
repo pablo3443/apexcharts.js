@@ -217,7 +217,9 @@ class DataLabels {
 
     let dataLabelColor = w.globals.dataLabels.style.colors[i]
     if (
-      ((w.config.chart.type === 'bar' || w.config.chart.type === 'rangeBar') &&
+      ((w.config.chart.type === 'bar' ||
+        w.config.chart.type === 'rangeBar' ||
+        w.config.chart.type === 'gantt') &&
         w.config.plotOptions.bar.distributed) ||
       w.config.dataLabels.distributed
     ) {
@@ -238,7 +240,11 @@ class DataLabels {
     let offX = dataLabelsConfig.offsetX
     let offY = dataLabelsConfig.offsetY
 
-    if (w.config.chart.type === 'bar' || w.config.chart.type === 'rangeBar') {
+    if (
+      w.config.chart.type === 'bar' ||
+      w.config.chart.type === 'rangeBar' ||
+      w.config.chart.type === 'gantt'
+    ) {
       // for certain chart types, we handle offsets while calculating datalabels pos
       // why? because bars/column may have negative values and based on that
       // offsets becomes reversed

@@ -18,7 +18,8 @@ export default class DimGrid {
         type === 'bar' ||
         type === 'rangeBar' ||
         type === 'candlestick' ||
-        type === 'boxPlot'
+        type === 'boxPlot' ||
+        type === 'gantt'
       )
     }
 

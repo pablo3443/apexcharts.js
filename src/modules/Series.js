@@ -280,7 +280,8 @@ export default class Series {
       'bar',
       'rangebar',
       'candlestick',
-      'radar'
+      'radar',
+      'gantt'
     ]
     chartTypes.forEach((type) => {
       const paths = getPaths(type)

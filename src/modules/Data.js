@@ -397,7 +397,8 @@ export default class Data {
       cnf.labels.length > 0 ? cnf.labels.slice() : cnf.xaxis.categories.slice()
 
     gl.isTimelineBar =
-      cnf.chart.type === 'rangeBar' && cnf.xaxis.type === 'datetime'
+      (cnf.chart.type === 'rangeBar' || cnf.chart.type === 'gantt') &&
+      cnf.xaxis.type === 'datetime'
 
     const handleDates = () => {
       for (let j = 0; j < xlabels.length; j++) {
@@ -433,8 +434,10 @@ export default class Data {
       if (
         cnf.chart.type === 'rangeBar' ||
         cnf.chart.type === 'rangeArea' ||
+        cnf.chart.type === 'gantt' ||
         ser[i].type === 'rangeBar' ||
-        ser[i].type === 'rangeArea'
+        ser[i].type === 'rangeArea' ||
+        ser[i].type === 'gantt'
       ) {
         gl.isRangeData = true
         this.handleRangeData(ser, i)

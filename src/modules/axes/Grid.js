@@ -117,6 +117,7 @@ class Grid {
       type === 'rangeBar' ||
       type === 'candlestick' ||
       type === 'boxPlot' ||
+      type === 'gantt' ||
       w.globals.comboBarCount > 0
 
     let barWidthLeft = 0

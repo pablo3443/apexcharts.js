@@ -23,7 +23,7 @@ import Core from '../Core'
 import Data from '../Data'
 import UpdateHelpers from './UpdateHelpers'
 
-import '../../svgjs/svg.js'
+import 'svg.js'
 import 'svg.filter.js'
 import 'svg.pathmorphing.js'
 import 'svg.draggable.js'

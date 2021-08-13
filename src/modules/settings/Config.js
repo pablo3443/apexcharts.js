@@ -57,7 +57,8 @@ export default class Config {
         'polarArea',
         'donut',
         'radar',
-        'radialBar'
+        'radialBar',
+        'gantt'
       ]
 
       if (chartTypes.indexOf(opts.chart.type) !== -1) {
@@ -317,7 +318,11 @@ export default class Config {
       config.chart.zoom.enabled = false // no zooming for horz bars
     }
 
-    if (config.chart.type === 'bar' || config.chart.type === 'rangeBar') {
+    if (
+      config.chart.type === 'bar' ||
+      config.chart.type === 'rangeBar' ||
+      config.chart.type === 'gantt'
+    ) {
       if (config.tooltip.shared) {
         if (
           config.xaxis.crosshairs.width === 'barWidth' &&

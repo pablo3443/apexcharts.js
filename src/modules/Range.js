@@ -124,7 +124,7 @@ class Range {
     }
 
     if (
-      cnf.chart.type === 'rangeBar' &&
+      (cnf.chart.type === 'rangeBar' || cnf.chart.type === 'gannt') &&
       gl.seriesRangeStart.length &&
       gl.isBarHorizontal &&
       cnf.xaxis.type === 'datetime'
@@ -190,6 +190,7 @@ class Range {
       cnf.chart.type === 'area' ||
       cnf.chart.type === 'candlestick' ||
       cnf.chart.type === 'boxPlot' ||
+      cnf.chart.type === 'gantt' ||
       (cnf.chart.type === 'rangeBar' && !gl.isBarHorizontal)
     ) {
       if (

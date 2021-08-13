@@ -13,10 +13,17 @@ export default class Axes {
 
     let xAxis = new XAxis(this.ctx)
     let yAxis = new YAxis(this.ctx)
+    let elXaxis, elYaxis
+    if (this.w.config.chart.type === 'gantt') {
+      elYaxis = yAxis.drawGanttYAxis(0)
+      elXaxis = xAxis.drawGanttXAxis(0)
+
+      gl.dom.elGraphical.add(elXaxis)
+      gl.dom.elGraphical.add(elYaxis)
+      return
+    }
 
     if (gl.axisCharts && type !== 'radar') {
-      let elXaxis, elYaxis
-
       if (gl.isBarHorizontal) {
         elYaxis = yAxis.drawYaxisInversed(0)
         elXaxis = xAxis.drawXaxisInversed(0)
